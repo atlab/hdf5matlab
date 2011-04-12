@@ -28,14 +28,14 @@ end
 
 % Save tt information
 %=====================
-H5Tools.writeDataset(fp, 'tt_t', tt.t, [params.tt_tChunks, 1]);
-H5Tools.writeDataset(fp, 'tt_h', tt.h, [params.tt_hChunks, size(tt.h, 2)]);
+H5Tools.writeDataset(fp, 'tt_t', tt.t, [params.tt_tChunks, 1],{'H5S_UNLIMITED', 1});
+H5Tools.writeDataset(fp, 'tt_h', tt.h, [params.tt_hChunks, size(tt.h, 2)],{'H5S_UNLIMITED', size(tt.h, 2)});
 
 % Create group for channel waveforms
 waveGroup = H5G.create(fp, '/tt_w', 0);
 for ch=1:nbChannels
     datasetName = sprintf('Ch%u', ch);
-    H5Tools.writeDataset(waveGroup, datasetName, tt.w{ch}, [size(tt.w{ch}, 1), params.tt_wChunks]);
+    H5Tools.writeDataset(waveGroup, datasetName, tt.w{ch}, [size(tt.w{ch}, 1), params.tt_wChunks],{size(tt.w{ch}, 1),'H5S_UNLIMITED'});
 end
 H5G.close(waveGroup);
 

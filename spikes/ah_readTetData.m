@@ -4,9 +4,9 @@ function tt=ah_readTetData(filename, varargin)
 
 [fPath fFile fExt] = fileparts(filename);
 
-if strcmpi(fExt, '.Htt')
+if strcmpi(fExt, '.Htt') || strcmpi(fExt,'.Hsp')
     tt = ah_readHDF5tt(filename, varargin{:});
-else
+elseif strcmpi(fExt, '.Ntt')
     % Use MEX file for Ntt files
     if isempty(varargin)
         tt = read_tt(filename, 'all');
@@ -18,6 +18,8 @@ else
         end
         tt = read_tt(filename, varargin{:});
     end
+else 
+    error('Unsupported file extension');
 end
 
 
@@ -25,7 +27,7 @@ function err = chkidx(args)
 
 err = false;
 for i = 1:numel(args)-1
-    if ischar(args{i}) && strcmp(args{i},'index') && any(args{i+1} < 1)
+    if ischar(args{i}) && strcmp(args{i},'index') && any(args{i+1} < 0)
         err = true;
         return
     end

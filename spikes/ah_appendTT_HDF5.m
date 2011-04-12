@@ -5,6 +5,11 @@ function ah_appendTT_HDF5(filename, tt)
 %
 % AE 2009-04-03
 
+% is there anything to append?
+if isempty(tt.t)
+    return
+end
+
 % open file for writing
 filename = getLocalPath(filename);
 fp = H5F.open(filename, 'H5F_ACC_RDWR', 'H5P_DEFAULT');

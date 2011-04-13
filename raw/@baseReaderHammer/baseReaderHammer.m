@@ -1,4 +1,8 @@
 function br = baseReaderHammer(varargin)
+% You should not use this class directly. Rather, use 
+%   br = baseReader(fileName)
+% This will automatically generate an appropriate reader for the file
+% format.
 
 br.fileName = [];
 br.nbSamples = 0;
@@ -15,25 +19,24 @@ if length(varargin) == 1 && isa(varargin{1}, 'baseReaderHammer')
     return
 end
 
-if length(varargin) >= 1 && ischar(varargin{1})
-    br.fileName = varargin{1};
-    if length(varargin) >= 2
-        % br.tetrode = varargin{2}(:)';
-        br.tetrode = varargin{2};
-    else
-        br.tetrode = [];
-    end
-    % try to load some information from the HDF5 file
-    br = getFileInfo(br);
+br.fileName = varargin{1};
+if length(varargin) >= 2
+    br.tetrode = varargin{2};
+else
+    br.tetrode = [];
 end
 br = class(br, 'baseReaderHammer');
+
+% try to load some information from the HDF5 file
+br = getFileInfo(br);
+
 
 
 function br = getFileInfo(br)
 
 br.fp = H5Tools.openFamily(br.fileName);
 % Check actual data matrix
-dims = H5Tools.getRecordingDim(br.fp);
+dims = getRecordingDim(br);
 
 br.nbSamples = dims.nbSamples;
 br.samplingRate = dims.samplingRate;
@@ -42,7 +45,7 @@ br.tend = 1000 * (br.nbSamples - 1) / br.samplingRate;
 
 
 if isempty(br.tetrode)
-    [tets channels] = H5Tools.getRecordedTetrodes(br.fp);
+    [tets channels] = getRecordedTetrodes(br);
     chans = H5Tools.getChannelNames(br.fp);
     if length(vertcat(channels{:})) == length(chans)
         br.tetrode = tets;
@@ -79,7 +82,7 @@ if iscell(br.tetrode)
     br.tetrode = br.tetrode(validChannels);
     br.nbChannels = length(br.channels);
 elseif isnumeric(br.tetrode)
-    [tets channels] = H5Tools.getRecordedTetrodes(br.fp);
+    [tets channels] = getRecordedTetrodes(br);
     availableTets = intersect(tets, br.tetrode);
     if ~isempty(availableTets)
         br.tetrode = availableTets;

@@ -14,7 +14,7 @@ fr.nbSamples = 0;
    
 
 % Actual parameters were supplied, i.e. a basic reader
-if (isa(varargin{1}, 'baseReader') || isa(varargin{1}, 'tpElChannel') || isa(varargin{1}, 'tpMaskReader')) && isa(varargin{2}, 'waveFilter')
+if isValidBaseReader(varargin{1}) && isa(varargin{2}, 'waveFilter')
     fr.reader = varargin{1};
     fr.filter = varargin{2};
     % Get some basic data about the datastream
@@ -27,3 +27,11 @@ else
     error('Please initialize filteredReader with a baseReader and a waveFilter object as parameters.')
 end
 fr = class(fr, 'filteredReader');
+
+
+
+function valid = isValidBaseReader(reader)
+
+cl = class(reader);
+valid = strcmp(cl(1:10), 'baseReader') || isa(reader, 'tpElChannel') || isa(reader, 'tpMaskReader');
+

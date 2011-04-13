@@ -1,7 +1,7 @@
 function x = subsref(br, s)
 % Subscripting.
 %   x = br(samples, channels). channels can be either channel indices or
-%   't' for the timestamps.
+%   't' for the timestamps in milliseconds.
 %
 % AE 2011-04-11
 
@@ -26,9 +26,9 @@ end
 % time channel requested?
 if ischar(channels) && channels == 't'
     if iscolon(samples)
-        x = 1000 * (0:br.nbSamples-1)' / br.Fs;
+        x = br.t0 + 1000 * (0:br.nbSamples-1)' / br.Fs;
     else
-        x = 1000 * (samples(:)-1)' / br.Fs;
+        x = br.t0 + 1000 * (samples(:)-1)' / br.Fs;
     end
 else
     
@@ -64,3 +64,8 @@ else
         end
     end
 end
+
+
+
+function b = iscolon(x)
+b = ischar(x) && isscalar(x) && x == ':';

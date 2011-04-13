@@ -1,14 +1,14 @@
-function dim = getRecordingDim(fp)
+function dim = getRecordingDim(br)
 
-if ~H5Tools.existDataset(fp, '/data')
+if ~H5Tools.existDataset(br.fp, '/data')
     error('Recording file does not contain data matrix ''/data''')
 end
 
-dim.tetrodes = H5Tools.getRecordedTetrodes(fp);
-dataDim = H5Tools.getDatasetDim(fp, 'data');
+dim.tetrodes = getRecordedTetrodes(br);
+dataDim = H5Tools.getDatasetDim(br.fp, 'data');
 dim.nbRecChannels = dataDim(1);
 dim.nbSamples     = dataDim(2);
-rootGroup = H5G.open(fp, '/');
+rootGroup = H5G.open(br.fp, '/');
 if H5Tools.existAttribute(rootGroup, 'sample rate')
     dim.samplingRate = H5Tools.readAttribute(rootGroup, 'sample rate');
 else

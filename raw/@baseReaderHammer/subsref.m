@@ -46,37 +46,37 @@ if isnumeric(channels)
     % Convert to actual channel numbers in the recording file
     channels = br.channels(channels);
     % Invert sign on tetrode channels
-    if isnumeric(br.tetrode)
-	multiplier = -1;
+    if isnumeric(br.tetrode) || ~isempty(regexp(br.tetrode{1}, '^t[0-9]+c[1-4]{1}$', 'once'))
+        multiplier = -1;
     else
-	multiplier = 1;
+        multiplier = 1;
     end
     
     B = zeros(length(samples), length(channels));
-
+    
     % Check whether samples are a block
     if length(samples) > 2 && (samples(end) - samples(1)) == (length(samples) - 1)  && all(diff(samples) == 1)
-	% Maximize performance by reading hyperslabs
-	cuts = find(diff(channels) ~= 1);
-	nbBlocks = length(cuts) + 1;
-	blockRanges = zeros(nbBlocks, 2);
-	blockRanges(1:end-1, 2) = channels(cuts);
-	blockRanges(2:end, 1) = channels(cuts+1);
-	blockRanges(1,1) = channels(1);
-	blockRanges(end,2) = channels(end);
-	blockLens = blockRanges(:,2) - blockRanges(:,1)+1;
+        % Maximize performance by reading hyperslabs
+        cuts = find(diff(channels) ~= 1);
+        nbBlocks = length(cuts) + 1;
+        blockRanges = zeros(nbBlocks, 2);
+        blockRanges(1:end-1, 2) = channels(cuts);
+        blockRanges(2:end, 1) = channels(cuts+1);
+        blockRanges(1,1) = channels(1);
+        blockRanges(end,2) = channels(end);
+        blockLens = blockRanges(:,2) - blockRanges(:,1)+1;
         accumLens = [0 reshape(cumsum(blockLens),1,[])];
-	for b=1:nbBlocks
+        for b=1:nbBlocks
             B(:, accumLens(b)+(1:blockLens(b))) = multiplier .* (H5Tools.readDataset(br.fp, params.setName, 'range', [blockRanges(b,1), samples(1)], [blockRanges(b,2), samples(end)]));
-	end
+        end
     else
-	for iCh=1:length(channels)
-	    ch = channels(iCh);
+        for iCh=1:length(channels)
+            ch = channels(iCh);
             B(:, iCh) = multiplier .*  (H5Tools.readDataset(br.fp, params.setName, 'index', [repmat(ch, length(samples), 1) , samples(:)]));
         end
     end
 elseif ischar(channels) && (channels == 't')
-        B = 1000 * (samples(:)-1) / br.samplingRate;
-    end
+    B = 1000 * (samples(:)-1) / br.samplingRate;
+end
 end
 

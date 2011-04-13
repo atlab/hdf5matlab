@@ -2,7 +2,7 @@ function display(br)
 
 % Display output for baseReader
 
-disp('baseReader object'), disp(' ')
+disp([class(br) ' object']), disp(' ')
 disp('Filename:'), disp(' ')
 disp(br.fileName), disp(' ')
 if isnumeric(br.tetrode)

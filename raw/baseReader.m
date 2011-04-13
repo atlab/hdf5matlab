@@ -1,5 +1,5 @@
 function br = baseReader(fileName, varargin)
-% Factory method creating an appropriate data reader
+% Factory method creating an appropriate data reader.
 %   br = baseReader(fileName) returns a base reader for the file indicated
 %   by fileName. The method automatically detects the file format and
 %   selects the appropriate reader.
@@ -15,6 +15,8 @@ function br = baseReader(fileName, varargin)
 %
 % AE 2011-04-11
 
+% Some checks on input arguments
+assert(nargin > 0, 'baseReader:noFileName', 'No file name provided!')
 if nargin > 1
     assert(iscell(varargin{1}) || ischar(varargin{1}), ...
         'baseReader:invalidChannelDef', ...

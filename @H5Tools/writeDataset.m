@@ -30,7 +30,7 @@ if (nargin >= 4)
     maxDims = fliplr(maxDims);
 end
 
-if all(dataDims == 1) & (nargin < 5 | ~any(strcmp(maxDims,'H5S_UNLIMITED') == 1))
+if all(dataDims == 1) && (nargin < 5 || ~any(strcmp(maxDims,'H5S_UNLIMITED') == 1))
     dataSpace = H5S.create('H5S_SCALAR');
 else
     if nargin < 5

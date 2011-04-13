@@ -30,6 +30,6 @@ else
     [br.chIndices, br.chNames] = H5Tools.matchChannels(br.fp, channels);
 end
 br.Fs = H5Tools.readAttribute(br.fp, 'Fs');
-br.tstart = H5Tools.readAttribute(br.fp, 'tstart');
+br.t0 = H5Tools.readAttribute(br.fp, 't0');
 
 br = class(br, 'baseReaderElectrophysiology');

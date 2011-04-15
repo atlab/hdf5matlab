@@ -31,5 +31,6 @@ else
 end
 br.Fs = H5Tools.readAttribute(br.fp, 'Fs');
 br.t0 = H5Tools.readAttribute(br.fp, 't0');
+br.scale = H5Tools.readAttribute(bf.fp, 'scale');
 
 br = class(br, 'baseReaderElectrophysiology');

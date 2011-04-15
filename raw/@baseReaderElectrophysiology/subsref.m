@@ -63,6 +63,9 @@ else
             x(:,i) = H5Tools.readDataset(br.fp, 'data', 'index', [repmat(channels(i), nSamples, 1) , samples(:)]);
         end
     end
+    
+    % scale to (micro/milli?)volts
+    x = x * br.scale;
 end
 
 

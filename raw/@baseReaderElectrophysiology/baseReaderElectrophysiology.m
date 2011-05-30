@@ -29,8 +29,15 @@ if isnumeric(channels)
 else
     [br.chIndices, br.chNames] = H5Tools.matchChannels(br.fp, channels);
 end
+
+br.nbChannels = length(br.chIndices);
+
 br.Fs = H5Tools.readAttribute(br.fp, 'Fs');
-br.t0 = H5Tools.readAttribute(br.fp, 't0');
-br.scale = H5Tools.readAttribute(bf.fp, 'scale');
+if(H5Tools.existAttribute(br.fp, 't0'))
+    br.t0 = H5Tools.readAttribute(br.fp, 't0');
+else
+    br.t0 = 0;
+end
+br.scale = H5Tools.readAttribute(br.fp, 'scale');
 
 br = class(br, 'baseReaderElectrophysiology');

@@ -29,6 +29,7 @@ end
 fp = H5Tools.openFamily(fileName);
 if H5Tools.existAttribute(fp, 'class')
     cl = H5Tools.readAttribute(fp, 'class');
+    cl = reshape(cl,1,[]);
     br = feval(['baseReader' cl], fileName, varargin{:});
 else
     br = getHammerReader(fileName, varargin{:});

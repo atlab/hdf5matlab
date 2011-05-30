@@ -6,8 +6,14 @@ function [indices, names] = matchChannels(fp, channels)
 
 % read channel names
 str = H5Tools.readAttribute(fp, 'channelNames');
+
+% reshape into a row and remove anything after cr
+str = reshape(str,1,[]);
+cr = find(str == 13);
+str(cr:end) = [];
 names = regexp(str, ',', 'split');
 
+    
 if ischar(channels) && any(channels == '*')
     % channels are given as a pattern
     channels = ['^' strrep(channels, '*', '([0-9]+)') '$'];
@@ -18,6 +24,11 @@ if ischar(channels) && any(channels == '*')
     [foo, order] = sort(ch, 'ascend'); %#ok<ASGLU>
     indices = indices(order);
 else
+    % put in cell array if only one channel (makes assert not crash)
+    if ischar(channels)
+        channels = {channels};
+    end
+    
     % channel(s) given by name(s)
     [foo, indices] = ismember(channels, names); %#ok<ASGLU>
     assert(all(indices > 0), 'H5Tools:noSuchChannel', ...

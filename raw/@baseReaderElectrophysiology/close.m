@@ -1,4 +1,4 @@
-function close(br)
+function br = close(br)
 
 warning('check me')
 

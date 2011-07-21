@@ -8,4 +8,4 @@ H5A.write(attr, 'H5ML_DEFAULT', t0);
 H5A.close(attr);
 H5F.close(fp);
 
-br = baseReaderElectrophysiology(br.fileName, br.chNames{:});
+br = baseReaderElectrophysiology(br.fileName, br.chNames);

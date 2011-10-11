@@ -43,6 +43,8 @@ if H5Tools.existAttribute(fp, 'class')
     else
         br = feval(['baseReader' classMapping{index,2}], fileName, varargin{:});
     end
+elseif H5Tools.existAttribute(fp, 'channelNames') % TEMP
+    br = baseReaderElectrophysiology(fileName, varargin{:});
 else
     br = getHammerReader(fileName, varargin{:});
 end

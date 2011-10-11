@@ -1,0 +1,53 @@
+Data reader API
+
+
+Creating a reader object
+
+The function that creates the reader is baseReader.m. It's a factory method that determines the file type and then instantiates an object of the appropriate class. Information on the syntax is provided in the help text. You have to put a fork into this function that catches files recorded by the blackjack system (e.g. use the file extension) and creates an appropriate reader (e.g. baseReaderBlackrock). Around line 25 would probably be the right place to put that code fork.
+
+
+
+
+Implementing the reader class
+
+[I assume here you call the class baseReaderBlackrock. Feel free to name it differently]
+
+You have to implement the functions described below. The variable br is assumed to be of type baseReaderBlackrock. For code examples, refer to the class baseReaderElectrophysiology.
+
+
+br = baseReaderBlackrock(filename, [channelsOrPattern])
+For documentation of inputs see "help baseReaderElectrophysiology".
+
+br = close(br)
+Close file handle.
+
+display(br)
+Output to the Matlab command line when you type "br".
+
+i = end(br, k)
+The same as size(br, k) (see below).
+
+n = getNbChannels(br)
+Returns the number of channels. The same as size(br, 2).
+
+n = getNbSamples(br)
+Returns the number of samples. The same as size(br, 1).
+
+i = getSampleIndex(br, t)
+Returns the sample index closest to timestamp t.
+
+Fs = getSamplingRate(br)
+Returns the sampling rate.
+
+n = length(br)
+Returns the number of samples. The same as size(br, 1) or getNbSamples(br).
+
+sz = size(br, dim)
+Same behavior as size(x, dim) where x is a 2D matrix. size(br, 1) is the number of samples; size(br, 2) is the number of channels.
+
+x = subsref(br, s)
+Implements indexing. The reader acts like a matrix of data that can be indexed into via br(i,j). The first dimension are samples; the second dimension are channels. Thus, x = br(1:10,[7 9]) returns samples 1:10 samples of channels 7 and 9 in a matrix x. In addition, the channel can also be the string 't', in which case the sample times are returned. Thus, t = br(1:10,'t') will be a 10x1 vector of sample times corresponding to samples 1:10.
+
+
+
+

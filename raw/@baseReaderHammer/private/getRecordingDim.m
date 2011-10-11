@@ -11,6 +11,8 @@ dim.nbSamples     = dataDim(2);
 rootGroup = H5G.open(br.fp, '/');
 if H5Tools.existAttribute(rootGroup, 'sample rate')
     dim.samplingRate = H5Tools.readAttribute(rootGroup, 'sample rate');
+elseif  H5Tools.existAttribute(rootGroup, 'Fs')
+    dim.samplingRate = H5Tools.readAttribute(rootGroup, 'Fs');
 else
     dim.samplingRate = -1;
     warning('Could not read ''sample rate'' attribute from recording file.');

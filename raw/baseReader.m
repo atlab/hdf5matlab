@@ -23,7 +23,7 @@ if nargin > 1
         'Channels must be specified by names or as a pattern!')
 end
 
-classMapping = {'Electrophysiology', 'Electrophysiology',
+classMapping = {'Electrophysiology', 'Electrophysiology'; ...
     'BehaviorData', 'Electrophysiology'};
     
 

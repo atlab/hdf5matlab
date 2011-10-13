@@ -25,6 +25,7 @@ end
 
 % time channel requested?
 if ischar(channels) && channels == 't'
+    assert(br.t0 > 0, 't0 has not been updated in this file!')
     if iscolon(samples)
         x = br.t0 + 1000 * (0:br.nbSamples-1)' / br.Fs;
     else

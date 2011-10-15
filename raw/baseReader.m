@@ -23,9 +23,7 @@ if nargin > 1
         'Channels must be specified by names or as a pattern!')
 end
 
-classMapping = {'Electrophysiology', 'Electrophysiology'; ...
-    'BehaviorData', 'Electrophysiology'};
-    
+classMapping = {'BehaviorData', 'Electrophysiology'};
 
 % read attribute 'class', which tells us which reader to create. If it
 % doesn't exist, we're dealing with a legacy (Hammer) file
@@ -33,18 +31,18 @@ classMapping = {'Electrophysiology', 'Electrophysiology'; ...
 fp = H5Tools.openFamily(fileName);
 if H5Tools.existAttribute(fp, 'class')
     cl = H5Tools.readAttribute(fp, 'class');
-    cl = reshape(cl,1,[]);
-    [found index] = ismember(cl,classMapping(:,1));
+    cl = reshape(cl, 1, []);
+    [found, index] = ismember(cl, classMapping(:,1));
     
     % if defined map this class to a particular reader, otherwise use its
     % name
-    if(~found)
+    if ~found
         br = feval(['baseReader' cl], fileName, varargin{:});
     else
         br = feval(['baseReader' classMapping{index,2}], fileName, varargin{:});
     end
-elseif H5Tools.existAttribute(fp, 'channelNames') % TEMP
-    br = baseReaderElectrophysiology(fileName, varargin{:});
+% elseif H5Tools.existAttribute(fp, 'channelNames') % TEMP
+%     br = baseReaderElectrophysiology(fileName, varargin{:});
 else
     br = getHammerReader(fileName, varargin{:});
 end

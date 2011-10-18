@@ -4,8 +4,4 @@ function br = getBaseReader(pr)
 % 
 % AE 2011-10-15
 
-if ~isempty(regexp(class(pr.reader), 'baseReader*', 'once'))
-    br = pr.reader;
-else
-    br = getBaseReader(pr.reader);
-end
+br = getBaseReader(pr.reader);

@@ -14,7 +14,7 @@ fr.nbSamples = 0;
    
 
 % Actual parameters were supplied, i.e. a basic reader
-if isValidBaseReader(varargin{1}) && isa(varargin{2}, 'waveFilter')
+if isValidBaseReader(varargin{1}) && isValidFilter(varargin{2})
     fr.reader = varargin{1};
     fr.filter = varargin{2};
     % Get some basic data about the datastream
@@ -28,6 +28,11 @@ else
 end
 fr = class(fr, 'filteredReader');
 
+
+function valid = isValidFilter(filt)
+
+cl = class(filt);
+valid = isequal(cl, 'waveFilter') || isequal(cl, 'iirFilter');
 
 
 function valid = isValidBaseReader(reader)

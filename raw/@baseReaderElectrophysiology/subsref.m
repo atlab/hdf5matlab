@@ -66,7 +66,16 @@ else
     end
     
     % scale to (micro/milli?)volts
-    x = x * br.scale;
+    order = numel(br.scale);
+    if order == 1
+        x = x * br.scale;
+    else
+        y = 0;
+        for i = 1:order
+            y = y + x.^(i - 1) * br.scale(i);
+        end
+        x = y;
+    end
 end
 
 

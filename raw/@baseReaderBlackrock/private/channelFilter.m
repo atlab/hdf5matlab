@@ -1,5 +1,5 @@
 function br = channelFilter(br,Flags)
-%channel selection filter -WW2011
+%channel selection filter
 
 if ~isempty(Flags.chFilter)
     try

@@ -158,6 +158,19 @@ end
 
 %pass through channel selection filter
 br = channelFilter(br,Flags);
+%check the matched channels against the recorded channels. Remove the
+%inactive channels from the return.
+inc = [];
+for i = 1 : br.nbChannels
+    if isempty(find(br.channels == br.chIndices(i))); inc = [inc i];end
+end
+
+if ~isempty(inc)
+    br.chIndices(inc) = [];
+    br.chNames(inc) = [];
+end
+%update the nbChannels
+br.nbChannels = length(br.chIndices);
 
 % br = class(br, 'baseReaderBlackrock');
 
@@ -186,7 +199,7 @@ switch tag
     case 'channels' %return recorded channel indices.
         if isfield(H,'ChannelID') %NSx
             %openNSx return 0 in channel id for Spec 2.2 files
-%             %read the channels info from .nev file as workaround.
+            %read the channels info from .nev file as workaround.
             nevfile = br.fileName;
             nevfile(end-2:end) = 'nev';
             %which openNEV
@@ -195,7 +208,7 @@ switch tag
             %replace the NSx header. 
             br.NSx.MetaTags.('ChannelID') = br.(tag);
             clear header;
-%             br.(tag) = (H.('ChannelID'))';
+%              br.(tag) = (H.('ChannelID'))';
         else
             %br.(tag) = []; %NEV contains no channel info.
             br.(tag) = unique(br.NEV.Data.Spikes.Electrode);
@@ -210,7 +223,12 @@ switch tag
             br.(tag) = 0;
         end
     case 'nbChannels'
+%         if isfield(H,'ChannelID') %NSx
+            %br.(tag) = length(H.('ChannelID'));
             br.(tag) = length(br.('chIndices'));
+%         else
+%             br.(tag) = 0; %NEV contains no channel info.
+%         end
     case {'samplingRate','Fs'}
         if isfield(H,'SamplingFreq') %NSx
             br.(tag) = H.('SamplingFreq');

@@ -3,7 +3,7 @@ function br = init(br)
 %WW2011
 
 %
-readNEVChannel = 0; 
+readNEVChannel = 1; 
 keepSpikes = 0;
 
 switch lower(char(regexp(br.fileName,'\.\w+$','match')))

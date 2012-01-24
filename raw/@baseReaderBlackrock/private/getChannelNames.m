@@ -11,7 +11,6 @@ function chNames = getChannelNames(br,channels)
 %  channels 't0ci' where i <= 128
 %
 %  if channel is out of range, return 't0c0'
-%WW2011
 
 n = length(channels);
 %tetrode and channel indices defined in cmap.

@@ -3,7 +3,7 @@ function chIndices = getChannelIndices(br,chNames)
 %strings {'t1c2','t1c1',...}
 %return orignal channel index if channel name is 't0c*'.
 %return 0 if not found in channel map file.
-%WW2011
+%
 
 if ischar(chNames) %single string
     chNames = {chNames};

@@ -15,13 +15,11 @@ chIndices = zeros(size(chNames));
 [tets, chans] = getTetrodes(br);
 
 for i = 1 : n
-    [tok mat] = regexpi(chNames{i},'^t([0-9]+)c([0-9]+)$','tokens','match');
-    tetID = str2num(tok{1}{1});
-    chID  = str2num(tok{1}{2});
-    try
-        chIndices(i) = chans{tetID}(chID);
-    catch
-        chIndices(i) = 0;
+    [tok, ~] = regexpi(chNames{i},'^t([0-9]+)c([0-9]+)$','tokens','match');
+    tetID = str2double(tok{1}{1});
+    chID  = str2double(tok{1}{2});
+    if any(tetID == tets)
+        chIndices(i) = chans{tetID == tets}(chID);
     end
     if tetID ==0 && chID > 0 %return orignal index
         chIndices(i) = chID;

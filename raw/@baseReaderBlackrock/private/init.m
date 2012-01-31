@@ -11,7 +11,7 @@ switch lower(char(regexp(br.fileName,'\.\w+$','match')))
         if readNEVChannel
             %read the channel/electrode info. remove the spikes afterwards. 
             fprintf('Open neural data file\n');
-            br.NEV = openNEV(br.fileName,'read','nowave','overwrite');
+            br.NEV = openNEV(br.fileName,'read','nowave','nowrite');
             fprintf('Done\n\n');
         else
             %or read the header only

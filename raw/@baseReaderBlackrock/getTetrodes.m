@@ -1,6 +1,6 @@
-function [tets, channels] = getRecordedTetrodes(br)
+function [tets, channels, indices] = getTetrodes(br)
 % Returns recorded tetrodes and associated channel indices.
-%   [tets, channels] = getRecordedTetrodes(br)
+%   [tets, channels] = getTetrodes(br)
 %
 % AE 2011-04-12
 %
@@ -10,9 +10,10 @@ function [tets, channels] = getRecordedTetrodes(br)
 
 tets = [];
 channels = {};
+indices = {};
 
 %tetrodes and channels specified in map file
-[mapTetrodes,mapChannels] = getTetrodes(br);
+[mapTetrodes,mapChannels] = getRecordedTetrodes(br);
 
 if ~isempty(br.NSx)
     %read the recorded channel indices.
@@ -28,6 +29,7 @@ for i = 1 : length(mapTetrodes)
     if length(intersect(recChannels,chanNum))==4 %all 4 chans need to be presented.
         tets = [tets tetNum];
         channels{end+1} = sort(chanNum); 
+        [~, indices{end+1}] = ismember(channels{end}, br.channels);
     end
 end
     

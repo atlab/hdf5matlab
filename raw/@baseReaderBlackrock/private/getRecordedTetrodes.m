@@ -1,4 +1,4 @@
-function [tets, channels] = getTetrodes(br)
+function [tets, channels] = getRecordedTetrodes(br)
 %Returns the full list of tetrodes and channels indices in the cmap.
 %the tetrode indices are deduced from the entry indices in map file, i.e,
 %the tetrodes are assumed to be arranged in sequential order by map file. 

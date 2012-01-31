@@ -24,9 +24,8 @@ if nargin > 1
 end
 
 % Catch blackrock files and open the approperiate reader. -WW2011
-alienExt = {'.nev','.ns1','.ns2','.ns3','.ns4','.ns5'}; % blackrock file extensions
 [~, ~, ext] = fileparts(fileName);
-if any(strcmpi(ext, alienExt))
+if any(strcmpi(ext, '.*'))
     br = baseReaderBlackrock(fileName, varargin{:});
     return
 end

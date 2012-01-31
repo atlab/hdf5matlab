@@ -51,7 +51,7 @@ else
     % Convert to actual channel numbers in the recording file
     channels = br.chIndices(channels);
     
-    fprintf('baseReaderBlackrock: Reading Data %.2f (MB) ... \n', nSamples*nChannels*4/1E6);
+%     fprintf('baseReaderBlackrock: Reading Data %.2f (MB) ... \n', nSamples*nChannels*4/1E6);
         
     x = zeros(nSamples, nChannels);
     %
@@ -68,7 +68,7 @@ else
     switch br.fileType
         case 'NEV'
             %readPortion = sprintf('t:%f:%f',readIdx(1)/br.nbSamples,readIdx(end)/br.nbSamples);
-            s = openNEV(br.fileName,'read','overwrite','nowave');
+            s = openNEV(br.fileName,'read','nowrite','nowave');
             for i = 1 : nChannels
                 data = (s.Data.Spikes.TimeStamp(s.Data.Spikes.Electrode == channels(i)))'; %read the full set
                 if iscolon(samples) || isblock(samples)
@@ -93,7 +93,7 @@ else
     % scale to (micro/milli?)volts
     x = x * br.scale;
     
-    fprintf('Done\n');
+%     fprintf('Done\n');
     
 end
 

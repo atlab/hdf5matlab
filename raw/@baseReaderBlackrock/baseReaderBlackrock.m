@@ -84,7 +84,7 @@ if length(varargin) == 1 && isa(varargin{1}, 'baseReaderBlackrock')
     return
 end
 
-br.fileName = varargin{1};
+br.fileName = strrep(varargin{1}, '.*', '.ns5');
 % set the file header and channel map
 br = init(br);
 br = class(br, 'baseReaderBlackrock');
@@ -195,7 +195,7 @@ switch tag
             br.(tag) = 'NSx';
         end
     case 'tetrode'
-        br.(tag) = getRecordedTetrodes(br);
+        br.(tag) = getTetrodes(br);
     case 'channels' %return recorded channel indices.
         if isfield(H,'ChannelID') %NSx
             %openNSx return 0 in channel id for Spec 2.2 files
@@ -203,7 +203,7 @@ switch tag
             nevfile = br.fileName;
             nevfile(end-2:end) = 'nev';
             %which openNEV
-            header = openNEV(nevfile,'read','nowave','overwrite');
+            header = openNEV(nevfile,'read','nowave','nowrite');
             br.(tag) = unique(header.Data.Spikes.Electrode);
             %replace the NSx header. 
             br.NSx.MetaTags.('ChannelID') = br.(tag);

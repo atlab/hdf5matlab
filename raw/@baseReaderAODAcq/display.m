@@ -1,0 +1,13 @@
+function display(br)
+
+fprintf('\n')
+fprintf('%s object\n', class(br))
+fprintf('\n')
+fprintf('                         File name: %s\n', br.fileName)
+fprintf('  Total number of imaging channels: %d\n', br.nbImChannels)
+fprintf('                 Number of samples: %d\n', br.nbImSamples)
+fprintf(' Total number of temporal channels: %d\n', br.nbTemporalChannels)
+fprintf('                 Number of samples: %d\n', br.nbTemporalSamples)
+%fprintf('             Sampling rate: %.0f Hz\n', br.Fs)
+%fprintf('        Recording duration: %.1f seconds\n', br.nbSamples / br.Fs)
+fprintf('\n')

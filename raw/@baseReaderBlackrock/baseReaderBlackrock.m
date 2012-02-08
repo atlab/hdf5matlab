@@ -1,21 +1,5 @@
 function br = baseReaderBlackrock(varargin)
-% Base reader for blackrock data recordings
-%   br = baseReaderElectrophysiology(fileName) opens a base reader for the
-%   file given in fileName.
-%
-%   br = baseReaderElectrophysiology(fileName, channels) opens a reader for
-%   only the given channels, where channels is either a numerical vector of
-%   channel indices, a string containing a channel name or a cell array of
-%   stings containig multiple channel names.
-%
-%   br = baseReaderElectrophysiology(fileName, pattern) opens a reader for
-%   a group of channels matching the given pattern. Channel groups can be
-%   for instance tetrodes. In this case the pattern would be 't10c*'.
-%
-% AE 2011-04-11
-%
-% -------------------------------------------------------------------------
-% modified for blackrock data reader -- WW2011
+% Base reader for blackrock data recordings -- WW2011
 %
 % Usage : 
 %         br = baseReaderBlackrock(fileName)

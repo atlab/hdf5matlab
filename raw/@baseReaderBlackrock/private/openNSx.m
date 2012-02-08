@@ -335,7 +335,7 @@ elseif strcmpi(NSx.MetaTags.FileTypeID, 'NEURALCD')
     NSx.MetaTags.TimeRes       = double(typecast(BasicHeader(283:286), 'uint32'));
     NSx.MetaTags.SamplingFreq  = NSx.MetaTags.TimeRes / double(typecast(BasicHeader(279:282), 'uint32'));
     t                          = double(typecast(BasicHeader(287:302), 'uint16'));
-    ChannelCount               = typecast(BasicHeader(303:306), 'uint32');
+    ChannelCount               = double(typecast(BasicHeader(303:306), 'uint32'));
     NSx.MetaTags.ChannelCount  = ChannelCount;
     readSize                   = double(ChannelCount * ExtHeaderLength);
     ExtendedHeader             = fread(FID, readSize, '*uint8');

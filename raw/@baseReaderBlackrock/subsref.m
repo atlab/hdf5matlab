@@ -80,7 +80,7 @@ else
         case 'NSx'
             for i = 1 : nChannels
                 %need to translate the channel indices to the recording indices
-                chID = find(br.NSx.MetaTags.ChannelID == channels(i));
+                chID = channels(i);
                 s = openNSx(br.fileName,'read','channels',chID,'duration',readIdx); %read a continuous block with specified position.
                 data = s.Data';
                 if iscolon(samples) || isblock(samples)

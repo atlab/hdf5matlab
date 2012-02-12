@@ -35,10 +35,11 @@ end
 chNames = cell(1,n);
 
 for i = 1 : n
-    chNames{i} = sprintf('t%dc%d',tets(tetID(i)),chID(i));
     %rename single and analog channels if they are in range.(1~144)
     if tetID(i)==0 && (channels(i)>0 && channels(i) < 145)  
         chNames{i} = sprintf('t%dc%d',0,channels(i));
+    else
+        chNames{i} = sprintf('t%dc%d',tets(tetID(i)),chID(i));
     end
 end
     

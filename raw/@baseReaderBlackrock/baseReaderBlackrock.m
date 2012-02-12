@@ -182,17 +182,7 @@ switch tag
         br.(tag) = getTetrodes(br);
     case 'channels' %return recorded channel indices.
         if isfield(H,'ChannelID') %NSx
-            %openNSx return 0 in channel id for Spec 2.2 files
-            %read the channels info from .nev file as workaround.
-            nevfile = br.fileName;
-            nevfile(end-2:end) = 'nev';
-            %which openNEV
-            header = openNEV(nevfile,'read','nowave','nowrite');
-            br.(tag) = unique(header.Data.Spikes.Electrode);
-            %replace the NSx header. 
-            br.NSx.MetaTags.('ChannelID') = br.(tag);
-            clear header;
-%              br.(tag) = (H.('ChannelID'))';
+            br.(tag) = (H.('ChannelID'))';
         else
             %br.(tag) = []; %NEV contains no channel info.
             br.(tag) = unique(br.NEV.Data.Spikes.Electrode);

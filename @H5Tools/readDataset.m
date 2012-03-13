@@ -36,9 +36,25 @@ maxDims = dims;
 maxDims(maxDims == 0) = -1;
 memspace = H5S.create_simple(length(dims), dims, maxDims);
 
-% Read data
-data = H5D.read(dataset, 'H5ML_DEFAULT', memspace, dataspace, 'H5P_DEFAULT');
+% Catch 3-byte integers. Neural files written by Hammer store the 24-bit
+% data as 3-byte integers. Until at least R2007b Matlab converted those to
+% regular 4-byte integers when reading as 'H5ML_DEFAULT' but this behavior
+% stopped with R2011b (or possibly earlier). We now have to use the n-bit
+% filter to expand the 3-byte integer into a regular 4-byte integer, then
+% divide by 2^8 to restore the original scale.
+tp = H5D.get_type(dataset);
+if H5T.get_class(tp) == H5ML.get_constant_value('H5T_INTEGER') && H5T.get_size(tp) == 3
+    datatype = H5T.copy('H5T_NATIVE_INT');
+    H5T.set_precision(datatype, 24);
+    H5T.set_offset(datatype, 8);
+    H5T.set_pad(datatype, 'H5T_PAD_ZERO', 'H5T_PAD_ZERO');
+    data = H5D.read(dataset, datatype, memspace, dataspace, 'H5P_DEFAULT') / 2^8;
+    H5T.close(datatype);
+else
+    data = H5D.read(dataset, 'H5ML_DEFAULT', memspace, dataspace, 'H5P_DEFAULT');
+end
 
+H5T.close(tp);
 H5S.close(memspace);
 H5S.close(dataspace);
 H5D.close(dataset);

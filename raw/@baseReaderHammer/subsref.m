@@ -67,12 +67,12 @@ if isnumeric(channels)
         blockLens = blockRanges(:,2) - blockRanges(:,1)+1;
         accumLens = [0 reshape(cumsum(blockLens),1,[])];
         for b=1:nbBlocks
-            B(:, accumLens(b)+(1:blockLens(b))) = multiplier .* (H5Tools.readDatasetForce(br.fp, params.setName, 'range', [blockRanges(b,1), samples(1)], [blockRanges(b,2), samples(end)]));
+            B(:, accumLens(b)+(1:blockLens(b))) = multiplier .* (H5Tools.readDataset(br.fp, params.setName, 'range', [blockRanges(b,1), samples(1)], [blockRanges(b,2), samples(end)], 'datatype', 'H5T_STD_I32LE'));
         end
     else
         for iCh=1:length(channels)
             ch = channels(iCh);
-            B(:, iCh) = multiplier .*  (H5Tools.readDatasetForce(br.fp, params.setName, 'index', [repmat(ch, length(samples), 1) , samples(:)]));
+            B(:, iCh) = multiplier .*  (H5Tools.readDataset(br.fp, params.setName, 'index', [repmat(ch, length(samples), 1) , samples(:)], 'datatype', 'H5T_STD_I32LE'));
         end
     end
 elseif ischar(channels) && (channels == 't')

@@ -13,14 +13,19 @@ tt.nbSpikes = dim;
 % Read some attributes (e.g., number of Channels)
 rootGroup = H5G.open(fp, '/');
 if H5Tools.existAttribute(rootGroup, 'tStart') && ...
-	H5Tools.existAttribute(rootGroup, 'tEnd')
-
+        H5Tools.existAttribute(rootGroup, 'tEnd')
+    
     tt.tstart = H5Tools.readAttribute(rootGroup, 'tStart');
     tt.tend   = H5Tools.readAttribute(rootGroup, 'tEnd');
-else 
-    tt_t = H5Tools.readDataset(fp, 'tt_t', 'index', [1; dim]);
-    tt.tstart = tt_t(1);
-    tt.tend = tt_t(2);
+else
+    if any(dim==0) % MS 2012-06-29 - to handle the case of no spikes
+        tt.tstart = NaN;
+        tt.tend = NaN;
+    else
+        tt_t = H5Tools.readDataset(fp, 'tt_t', 'index', [1; dim]);
+        tt.tstart = tt_t(1);
+        tt.tend = tt_t(2);
+    end
 end
 H5G.close(rootGroup);
 

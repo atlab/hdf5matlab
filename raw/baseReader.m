@@ -28,6 +28,9 @@ end
 if any(strcmpi(ext, '.*'))
     br = baseReaderBlackrock(fileName, varargin{:});
     return
+elseif strcmpi(ext, '.Ncs') % old MPI data -AE2012
+    br = baseReaderMPI(fileName, varargin{:});
+    return
 end
 
 classMapping = {'BehaviorData', 'Electrophysiology'};

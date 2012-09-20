@@ -221,6 +221,6 @@ switch tag
         end
     
     case 'scale'
-        br.(tag) = 1; %raw scale.
+        br.(tag) = 0.25; % raw scale: 0.25 muV/bit (according to Blackrock spec)
 end
 

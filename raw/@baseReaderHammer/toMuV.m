@@ -1,5 +1,5 @@
-function muv = toMuV(br, x)
-% Converts values to microvolts.
+function muv = toMuV(~, x)
+% Converts digital values to microvolts.
 %   muv = toMuV(br, x)
 %
 % AE 2011-10-14

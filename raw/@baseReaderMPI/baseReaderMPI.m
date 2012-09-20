@@ -29,7 +29,5 @@ br.nbSamples = numel(br.v);
 br.Fs = br.sample_freq;
 br = rmfield(br, 'sample_freq');
 br.t0 = br.t(1);
-br.scale = 2^11 / (1e6 / 3000);
-br.v = br.v / br.scale; % convert to muV
 
 br = class(br, 'baseReaderMPI');

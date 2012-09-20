@@ -1,7 +1,9 @@
-function muv = toMuV(~, muv)
-% Converts values to microvolts.
-%   This is unnecessary here since the reader converts when reading data.
-%   Function is only there for compatibility with other data types that
-%   aren't converted during reading.
+function muv = toMuV(~, x)
+% Converts digital values to microvolts.
+%   muv = toMuV(br, x)
 
-% do nothing: already converted in subsref
+% this applies to LFP recordings
+range = 1e6;    % +/- 1 Volt
+gain = 3000;    % hardware setting
+bits = 12;      % i.e. +/- 11 bits
+muv = x * (range / gain / 2 ^ (bits - 1));

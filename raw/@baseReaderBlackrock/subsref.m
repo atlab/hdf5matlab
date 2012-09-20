@@ -90,11 +90,6 @@ else
                 end
             end
     end
-    % scale to (micro/milli?)volts
-    x = x * br.scale;
-    
-%     fprintf('Done\n');
-    
 end
 
 

@@ -1,6 +1,8 @@
 function ah_writeTT_HDF5(filename, tt, varargin)
 
 params.samplingRate = 32000;
+params.version = 1;
+params.units = 'unknown';
 params.tt_tChunks = 32 * 256;
 params.tt_hChunks = 8 * 256;
 params.tt_wChunks = 256;
@@ -47,6 +49,8 @@ H5Tools.writeAttribute(rootGroup, 'nbWaveformSamples', uint32(nbSamples));
 H5Tools.writeAttribute(rootGroup, 'nbSpikes', uint32(nbPoints));
 H5Tools.writeAttribute(rootGroup, 'samplingRate', uint32(params.samplingRate));
 H5Tools.writeAttribute(rootGroup, 'aligned', uint32(params.aligned));
+H5Tools.writeAttribute(rootGroup, 'version', params.version);
+H5Tools.writeAttribute(rootGroup, 'units', params.units);
 if isfield(tt, 'tstart') && ~isempty(tt.tstart), H5Tools.writeAttribute(rootGroup, 'tStart', tt.tstart); end
 if isfield(tt, 'tend') && ~isempty(tt.tend),   H5Tools.writeAttribute(rootGroup, 'tEnd', tt.tend);     end
 H5G.close(rootGroup);

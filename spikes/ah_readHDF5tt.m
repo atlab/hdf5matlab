@@ -47,6 +47,16 @@ end
 if H5Tools.existAttribute(rootGroup, 'aligned')
     tt.aligned = H5Tools.readAttribute(rootGroup, 'aligned');
 end
+if H5Tools.existAttribute(rootGroup, 'units')
+    tt.units = H5Tools.readAttribute(rootGroup, 'units');
+else
+    tt.units = 'unknown';
+end
+if H5Tools.existAttribute(rootGroup, 'version')
+    tt.version = H5Tools.readAttribute(rootGroup, 'version');
+else
+    tt.version = 1;
+end
 H5G.close(rootGroup);
 
 % find out number of spikes in the file

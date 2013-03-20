@@ -18,6 +18,7 @@ elseif strcmpi(fExt, '.Ntt')
         end
         tt = read_tt(filename, varargin{:});
     end
+    tt.units = 'unknown';
 else 
     error('Unsupported file extension');
 end

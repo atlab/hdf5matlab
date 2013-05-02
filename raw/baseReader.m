@@ -24,7 +24,7 @@ if nargin > 1
 end
 
 % Catch blackrock files and open the approperiate reader. -WW2011
-[~, ~, ext] = fileparts(fileName);
+[foo, foo, ext] = fileparts(fileName); %#ok backwards compatibility
 if any(strcmpi(ext, '.*'))
     br = baseReaderBlackrock(fileName, varargin{:});
     return

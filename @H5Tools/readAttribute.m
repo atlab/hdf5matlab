@@ -3,7 +3,8 @@ function data = readAttribute(fp, name)
 %   data = readAttribute(fp, name) reads attribute 'name' from file handle
 %   fp.
 
-attr = H5A.open_name(fp, name);
+root = H5G.open(fp, '/');
+attr = H5A.open_name(root, name);
 sp = H5A.get_space(attr);
 [nbDims, dims] = H5S.get_simple_extent_dims(sp);
 if nbDims == 0 || any(dims ~= 0)

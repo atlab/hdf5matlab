@@ -1,3 +1,3 @@
 function r = getSamplingRate(br)
 
-r = getSamplingRate(br.reader)
+r = getSamplingRate(br.reader);

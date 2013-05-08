@@ -19,7 +19,8 @@ if length(varargin)==1 && isa(varargin{1}, 'baseReaderReferenced')
     return;
 elseif length(varargin)>=2 && ...
         isa(varargin{1}, 'baseReaderElectrophysiology') && ...
-        isa(varargin{2}, 'baseReaderElectrophysiology')
+        (isa(varargin{2}, 'baseReaderElectrophysiology') || ...
+         isa(varargin{2}, 'baseReaderHammer'))
     br.reader = varargin{1};
     br.reference = varargin{2};
     

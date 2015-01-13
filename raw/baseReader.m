@@ -42,6 +42,7 @@ fp = H5Tools.openFamily(fileName);
 if H5Tools.existAttribute(fp, 'class')
     cl = H5Tools.readAttribute(fp, 'class');
     cl = reshape(cl,1,[]);
+    cl = cl(cl > 0);
     [found index] = ismember(cl,classMapping(:,1));
     
     % if defined map this class to a particular reader, otherwise use its

@@ -19,7 +19,8 @@ if ischar(channels) && any(channels == '*')
     channels = ['^' strrep(channels, '*', '([0-9]+)') '$'];
     matches = regexp(names, channels, 'tokens', 'once');
     indices = find(cellfun(@(x) ~isempty(x), matches));
-    ch = cellfun(@(x) str2double(x{1}), matches(indices));
+    toNum = @(x) sum(100 .^ (numel(x) - (1 : numel(x))) .* x);
+    ch = cellfun(@(x) toNum(cellfun(@str2double, x)),  matches(indices));
     % sort channels 
     [foo, order] = sort(ch, 'ascend'); %#ok<ASGLU>
     indices = indices(order);

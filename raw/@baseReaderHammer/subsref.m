@@ -53,13 +53,6 @@ if isnumeric(channels)
     % Convert to actual channel numbers in the recording file
     channels = br.channels(channels);
     
-    % Invert sign on tetrode channels - not clear as to why this is needed?
-    if isnumeric(br.tetrode) || ~isempty(regexp(br.tetrode{1}, '^t[0-9]+c[1-4]{1}$', 'once'))
-        multiplier = 1;
-    else
-        multiplier = -1;
-    end
-    
     B = zeros(length(samples), length(channels));
     
     % Check whether samples are a block
@@ -75,12 +68,12 @@ if isnumeric(channels)
         blockLens = blockRanges(:,2) - blockRanges(:,1)+1;
         accumLens = [0 reshape(cumsum(blockLens),1,[])];
         for b=1:nbBlocks
-            B(:, accumLens(b)+(1:blockLens(b))) = multiplier .* (H5Tools.readDataset(br.fp, params.setName, 'range', [blockRanges(b,1), samples(1)], [blockRanges(b,2), samples(end)], 'datatype', 'H5T_STD_I32LE'));
+            B(:, accumLens(b)+(1:blockLens(b))) = H5Tools.readDataset(br.fp, params.setName, 'range', [blockRanges(b,1), samples(1)], [blockRanges(b,2), samples(end)], 'datatype', 'H5T_STD_I32LE');
         end
     else
         for iCh=1:length(channels)
             ch = channels(iCh);
-            B(:, iCh) = multiplier .*  (H5Tools.readDataset(br.fp, params.setName, 'index', [repmat(ch, length(samples), 1) , samples(:)], 'datatype', 'H5T_STD_I32LE'));
+            B(:, iCh) = H5Tools.readDataset(br.fp, params.setName, 'index', [repmat(ch, length(samples), 1) , samples(:)], 'datatype', 'H5T_STD_I32LE');
         end
     end
 elseif ischar(channels) && (channels == 't')

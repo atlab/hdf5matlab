@@ -1,7 +1,6 @@
 function B = subsref(br, S)
 
 % This subsref allows for easy data access via () indexing parentheses.`
-
 params.setName = '/data';
 
 if strcmp(S(1).type, '.') && strcmp(S(1).subs, 't')
@@ -14,13 +13,7 @@ if strcmp(S(1).type, '.') && strcmp(S(1).subs, 't')
         T.subs = {':', 't'};
         B = subsref(br, T);
     end
-    
     return
-else
-    if strcmp(S(1).type, '.')
-        B = br.(S(1).subs);
-        return;
-    end
 end
 
 if length(S) ~= 1 || ~strcmp(S(1).type, '()') || length(S(1).subs) ~= 2

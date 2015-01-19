@@ -33,7 +33,8 @@ elseif strcmpi(ext, '.Ncs') % old MPI data -AE2012
     return
 end
 
-classMapping = {'BehaviorData', 'Electrophysiology'};
+classMapping = {'BehaviorData', 'Electrophysiology';
+                'IntanElectrophysiology', 'Electrophysiology'};
 
 % read attribute 'class', which tells us which reader to create. If it
 % doesn't exist, we're dealing with a legacy (Hammer) file

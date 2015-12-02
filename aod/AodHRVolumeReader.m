@@ -75,7 +75,7 @@ classdef AodHRVolumeReader < HDF5Helper
             if numel(s(1).subs)<4
                 chan = ':';
             else
-                chan = s(1).subs{4}
+                chan = s(1).subs{4};
             end
             
             if numel(s(1).subs) < 5

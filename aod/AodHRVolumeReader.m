@@ -54,10 +54,10 @@ classdef AodHRVolumeReader < HDF5Helper
             
             if(strcmp(s(1).type,'()') == 0)
                 if 0 && ismember(s.subs,properties(self))
-                    dat = self.(s.subs);
+                    volume = self.(s.subs);
                     return;
                 end
-                dat = subsref@HDF5Helper(self,s);
+                volume = subsref@HDF5Helper(self,s);
                 return
             end
             

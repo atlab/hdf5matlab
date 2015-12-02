@@ -45,6 +45,8 @@ elseif strcmp(dataset, 'Motion') == 1
     br = AodMotionReader(fileName);
 elseif strcmp(dataset, 'Volume') == 1
     br = AodVolumeReader(fileName);
+elseif strcmp(dataset, 'HRVolume') ==1
+    br = AodHRVolumeReader(fileName,varargin{1});
 else
     error('Unknown dataset.  Options are Temporal, Functional,Volume and Motion.');
 end

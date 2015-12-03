@@ -43,13 +43,13 @@ classdef AodHRVolumeReader < HDF5Helper
             data = ar(:,:,:);
             coord = AodCoordinatesReader(self.filename,self.version);
             coords =  coord(:);
-            volume = nan(length(self.x),length(self.y),length(self.z),size(data,3),size(data,1));
+            volume = nan(length(self.x),length(self.y),length(self.z),size(data,1),size(data,3));
             
             for i = 1:size(coords,1)
                 xind = find(single(coords(i,1))==single(self.x));
                 yind = find(single(coords(i,2))==single(self.y));
                 zind = find(single(coords(i,3))==single(self.z));
-                volume(xind,yind,zind,:,:) = squeeze(data(:,i,:))';
+                volume(xind,yind,zind,:,:) = squeeze(data(:,i,:));
             end
             
             if(strcmp(s(1).type,'()') == 0)
@@ -72,16 +72,16 @@ classdef AodHRVolumeReader < HDF5Helper
             y = s(1).subs{2};
             z = s(1).subs{3};
             
-            if numel(s(1).subs)<4
-                chan = ':';
+            if numel(s(1).subs)<5
+                chan = 1;
             else
-                chan = s(1).subs{4}
+                chan = s(1).subs{5};
             end
             
-            if numel(s(1).subs) < 5
-                volume = mean(volume,5);
+            if numel(s(1).subs) < 4
+                reps = 1:self.reps;
             else
-                reps = s(1).subs{5};
+                reps = s(1).subs{4};
             end
             
             % all samples requested?
@@ -101,7 +101,12 @@ classdef AodHRVolumeReader < HDF5Helper
             
             % all samples requested?
             if ~HDF5Helper.iscolon(reps)
-                volume = volume(:,:,:,:,reps);
+                volume = volume(:,:,:,reps,:);
+            end
+            
+            % all channels requested?
+            if ~HDF5Helper.iscolon(chan)
+                volume = volume(:,:,:,:,chan);
             end
             
         end

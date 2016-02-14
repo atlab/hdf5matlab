@@ -3,4 +3,5 @@ function setPath
     addpath(fileparts(mfilename('fullpath')))
     addpath(fullfile(fileparts(mfilename('fullpath')), 'raw'))
     addpath(fullfile(fileparts(mfilename('fullpath')), 'spikes'))
+    addpath(fullfile(fileparts(mfilename('fullpath')), 'aod'))
 end
